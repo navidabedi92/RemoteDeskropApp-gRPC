@@ -1,0 +1,50 @@
+﻿syntax = "proto3";
+
+
+
+service RemoteDesktopService {
+    rpc ConnectUser(ConnectUserRequest) returns (ConnectUserResponse);
+    rpc DisconnectUser(DisconnectUserRequest) returns (DisconnectUserResponse);
+    rpc SendScreenCapture(ScreenCaptureRequest) returns (Empty);
+    rpc SendPermissionRequest(PermissionRequest) returns (Empty);
+    rpc ListenForNotifications(ConnectUserRequest) returns (stream Notification);
+}
+
+
+message Notification {
+    string message = 1; // Notification message
+    string senderId = 2;  // ID of the user sending the notification
+    string targetId = 3;  // ID of the user getting the notification
+    bytes imageData=4;
+}
+
+
+message ScreenCaptureRequest {
+    string requesterId = 1; // ID of the client requesting permission
+    string targetId = 2; 
+    bytes imageData = 3; // The captured screen image data
+}
+message PermissionRequest {
+    string requesterId = 1; // ID of the client requesting permission
+    string targetId = 2; 
+}
+
+
+message ConnectUserRequest {
+    string userId = 1; // Unique identifier for the user
+    string userName = 2; // Display name of the user
+}
+
+message ConnectUserResponse {
+    bool success = 1; // Indicates if the connection was successful
+}
+
+message DisconnectUserRequest {
+    string userId = 1; // Unique identifier for the user
+}
+
+message DisconnectUserResponse {
+    bool success = 1; // Indicates if the disconnection was successful
+}
+
+message Empty {}

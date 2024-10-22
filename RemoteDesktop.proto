@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+service RemoteDesktopService {
+    rpc SendScreenStream (stream ScreenData) returns (Empty);
+}
+
+message ScreenData {
+    bytes imageData = 1;
+}
+
+message Empty {}
